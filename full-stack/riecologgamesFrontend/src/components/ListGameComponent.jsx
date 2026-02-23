@@ -25,6 +25,7 @@ const ListGameComponent = () => {
                         <th>Id</th>
                         <th>Genre</th>
                         <th>Title</th>
+                        <th>Price</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,6 +34,7 @@ const ListGameComponent = () => {
                             <td>{game.id}</td>
                             <td>{game.genre}</td>
                             <td>{game.title}</td>
+                            <td>{game.price}$</td>
                         </tr>
                     ))}
                 </tbody>
