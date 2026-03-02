@@ -2,6 +2,9 @@
 import './App.css'
 import ListGameComponent from './components/ListGameComponent'
 import GameComponent from './components/GameComponent'
+import RegisterCustomerComponent from './components/RegisterCustomerComponent'
+import LoginComponent from "./components/LoginComponent";
+import { isLoggedIn, logout } from "./services/AuthService";
  
 import { BrowserRouter,Routes,Route, Link }   from 'react-router-dom'
 
@@ -22,6 +25,24 @@ function App() {
               <li className="nav-item">
                 <Link className="nav-link" to="/create">Create Game</Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/register_customer">Register Customer</Link>
+              </li>
+              <li>
+                {isLoggedIn() ? (
+        <>
+          <button 
+              onClick={handleLogout}
+              className="btn btn-danger m-3">
+              Logout
+          </button>
+
+          <ListGameComponent />
+        </>
+      ) : (
+        <LoginComponent />
+      )}
+              </li>
             </ul>
           </div>
         </div>
@@ -30,6 +51,7 @@ function App() {
       <Routes>
         <Route path="/games" element={<ListGameComponent />} />
         <Route path="/create" element={<GameComponent />} />
+        <Route path="/register_customer" element={<RegisterCustomerComponent />} />
       </Routes>
       
     </BrowserRouter>  

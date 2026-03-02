@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.riecologgames.riecologgames.dto.StoreDTO;
 
 import com.riecologgames.riecologgames.service.StoreService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/store")
 public class StoreController {

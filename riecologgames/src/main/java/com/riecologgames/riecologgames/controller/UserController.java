@@ -20,7 +20,9 @@ import com.riecologgames.riecologgames.security.JwtUtil;
 import com.riecologgames.riecologgames.domainmodel.User;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {

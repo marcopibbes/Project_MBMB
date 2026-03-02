@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.riecologgames.riecologgames.dto.InStoreProductDTO;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
