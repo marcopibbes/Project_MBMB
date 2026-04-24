@@ -1,7 +1,10 @@
 package com.riecologgames.riecologgames.service.impl;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.riecologgames.riecologgames.dto.ProductDTO;
+import com.riecologgames.riecologgames.dto.ProductWithGameDetailsDTO;
 import com.riecologgames.riecologgames.mapper.ProductMapper;
 import com.riecologgames.riecologgames.repository.GameRepository;
 import com.riecologgames.riecologgames.repository.ProductRepository;
@@ -51,6 +54,28 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteById(id);
     }
 
+    @Override
+    public void arrivedProduct(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+        product.setArrived(true);
+        productRepository.save(product);        
+    }
 
+    @Override
+    public void soldProduct(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+        product.setSold(true);
+        productRepository.save(product);
+    }
+
+    @Override
+    public List<ProductWithGameDetailsDTO> getAllProductsWithGameDetails() {
+        return productRepository.findAll().stream()
+                .map(productMapper::toProductWithGameDetailsDTO)
+                .toList();
+    }
 
 }
+
