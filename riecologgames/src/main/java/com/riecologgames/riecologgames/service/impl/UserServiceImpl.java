@@ -6,6 +6,8 @@ import com.riecologgames.riecologgames.dto.UserDTO;
 import com.riecologgames.riecologgames.mapper.UserMapper;
 import com.riecologgames.riecologgames.service.UserService;
 import com.riecologgames.riecologgames.repository.UserRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.riecologgames.riecologgames.domainmodel.User;
 import com.riecologgames.riecologgames.domainmodel.Role;
@@ -101,5 +103,8 @@ public String login(String username, String password) {
         return userRepository.findByUsername(username);
                 
     }
+
+
+
 
 }

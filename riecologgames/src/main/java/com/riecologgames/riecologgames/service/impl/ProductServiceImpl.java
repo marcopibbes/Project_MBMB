@@ -2,6 +2,7 @@ package com.riecologgames.riecologgames.service.impl;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import com.riecologgames.riecologgames.domainmodel.User;
 
 import com.riecologgames.riecologgames.dto.ProductDTO;
 import com.riecologgames.riecologgames.dto.ProductWithGameDetailsDTO;
@@ -13,6 +14,7 @@ import com.riecologgames.riecologgames.domainmodel.Product;
 import com.riecologgames.riecologgames.repository.StoreRepository;
 import com.riecologgames.riecologgames.repository.UserRepository;
 import com.riecologgames.riecologgames.dto.InStoreProductDTO;
+import com.riecologgames.riecologgames.domainmodel.Store;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -70,12 +72,72 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
+
+    @Override
+    public void giveCashback(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found with id: " +
+                        id));
+        if (product.isSold()) {
+            product.setSold(false);
+            productRepository.save(product);
+        } else {
+            throw new RuntimeException("Product with id: " + id + " is not sold, cashback cannot be given.");
+        }
+    }
+
+
+    @Override
+    public ProductDTO reserveProduct(ProductDTO productDTO) {
+        Product product = productMapper.toEntity(productDTO);
+        product.setGame(gameRepository.findById(productDTO.gameID())
+                .orElseThrow(() -> new RuntimeException("Game not found with id: " + productDTO.gameID())));
+        product.setStore(storeRepository.findById(productDTO.storeID())
+                .orElseThrow(() -> new RuntimeException("Store not found with id: " + productDTO.storeID())));
+        product.setUser(userRepository.findById(productDTO.userID())
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + productDTO.userID())));
+        Product savedProduct = productRepository.save(product);
+
+        return productMapper.toDTO(savedProduct);
+
+    }
+
+    @Override
+    public List<ProductWithGameDetailsDTO> getOrdersByUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        return productRepository.findByUser(user).stream()
+                .map(productMapper::toProductWithGameDetailsDTO)
+                .toList();
+    }
+
     @Override
     public List<ProductWithGameDetailsDTO> getAllProductsWithGameDetails() {
         return productRepository.findAll().stream()
                 .map(productMapper::toProductWithGameDetailsDTO)
                 .toList();
     }
+
+    @Override
+    public void requestProduct(Long id, int quantity, Long storeId) {
+        // Verifica che il gioco esista (supponendo che 'id' sia l'ID del Game)
+        var game = gameRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Game not found with id: " + id));
+
+        // Crea il numero di prodotti richiesto
+        for (int i = 0; i < quantity; i++) {
+            Product newProduct = new Product();
+            newProduct.setGame(game);
+            newProduct.setArrived(false); // È stato richiesto, non è ancora arrivato
+            newProduct.setSold(false);
+            Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new RuntimeException("Store not found with id: " + storeId));
+            newProduct.setStore(store); 
+            
+            productRepository.save(newProduct);
+        }
+    }
+
 
 }
 

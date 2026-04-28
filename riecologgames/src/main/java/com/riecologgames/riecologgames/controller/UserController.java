@@ -21,6 +21,8 @@ import com.riecologgames.riecologgames.domainmodel.User;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @CrossOrigin("*")
 @RestController
@@ -69,14 +71,14 @@ public ResponseEntity<String> login(@RequestBody LoginRequest request) {
 
 
 
-    // 🔹 (Opzionale) Ottenere un utente per id
+    
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         UserDTO userDTO = userService.getUserById(id);
         return ResponseEntity.ok(userDTO);
     }
 
-    // 🔹 (Opzionale) Eliminare un utente
+    
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
@@ -96,4 +98,6 @@ public ResponseEntity<String> login(@RequestBody LoginRequest request) {
         Object principal = auth.getPrincipal();
         return ResponseEntity.ok(principal);
     }
+
+  
 }

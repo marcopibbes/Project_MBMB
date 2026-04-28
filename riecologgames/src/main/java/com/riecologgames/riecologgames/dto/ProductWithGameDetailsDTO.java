@@ -10,5 +10,6 @@ public record ProductWithGameDetailsDTO(
     boolean isArrived,
     boolean isSold,
     Long userId
-) {
+) 
+{
 }

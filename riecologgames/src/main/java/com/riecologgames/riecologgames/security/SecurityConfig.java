@@ -35,7 +35,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         }))
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/api/users/register_customer", "/api/users/login", "/api/users/whoami", "/api/games/create","/api/store/create", "/api/products/create", "/api/games").permitAll() 
+            .requestMatchers("/api/users/register_customer","/api/products/arrived/**", "/api/users/login", "/api/users/whoami", "/api/games/create","/api/store/create", "/api/products/create", "/api/games","/api/products/details","/api/products/request/**").permitAll() 
             .anyRequest().authenticated()
         )
         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
