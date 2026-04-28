@@ -1,64 +1,62 @@
 import React, { useState } from "react";
 import { arrivedProduct } from "../services/ProductService";
 
-const ArrivedProductComponent = () => {  
-    // Aggiunto stato per raccogliere l'ID digitato dall'utente
+const ArrivedProductComponent = () => {
     const [productId, setProductId] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleArrived = (e) => {
-        e.preventDefault(); // Previene il ricaricamento della pagina
-        
-        if(!productId) {
-            setErrorMessage("Per favore, inserisci un ID prodotto valido.");
+        e.preventDefault();
+
+        if (!productId) {
+            setErrorMessage("Inserisci un ID prodotto valido.");
             setSuccessMessage('');
             return;
         }
 
         arrivedProduct(productId)
-            .then(response => {
-                setSuccessMessage('Product marked as arrived successfully!');
+            .then(() => {
+                setSuccessMessage('Prodotto segnato come arrivato in magazzino!');
                 setErrorMessage('');
-                setProductId(''); // Svuota il campo dopo il successo
+                setProductId('');
             })
             .catch(error => {
                 console.error('Error marking product as arrived:', error);
-                setErrorMessage('Failed to mark product as arrived. Assicurati di avere i permessi e che l\'ID esista.');
+                setErrorMessage('Impossibile aggiornare il prodotto. Verifica permessi e ID.');
                 setSuccessMessage('');
             });
     };
 
     return (
         <div className="container mt-5">
-            <div className="row">
-                <div className="card col-md-6 offset-md-3 offset-md-3 p-4">
-                    <h2 className="text-center">Mark Product as Arrived</h2>
-                    <div className="card-body">
-                        <form>
-                            <div className="form-group mb-3">
-                                <label className="form-label">Product ID:</label>
-                                <input 
-                                    type="number" 
-                                    className="form-control" 
-                                    placeholder="Enter Product ID"
+            <div className="row justify-content-center">
+                <div className="col-md-6">
+                    <div className="card p-4">
+                        <h2 className="mb-0">Arrivo Merce</h2>
+                        <p style={{ color: '#8888a0', fontSize: '0.95rem', marginTop: '6px' }}>
+                            Registra l'arrivo di un prodotto in magazzino
+                        </p>
+
+                        <form onSubmit={handleArrived} className="mt-2">
+                            <div className="form-group mb-4">
+                                <label className="form-label">Codice Prodotto (ID)</label>
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    placeholder="Es. 1042"
                                     value={productId}
                                     onChange={(e) => setProductId(e.target.value)}
                                 />
                             </div>
-                            
-                            <button onClick={handleArrived} className="btn btn-primary w-100">
-                                Mark as Arrived
+
+                            <button type="submit" className="btn btn-primary w-100">
+                                Conferma Arrivo
                             </button>
                         </form>
 
-                        {successMessage && 
-                            <div className="alert alert-success mt-3">{successMessage}</div>
-                        }
-
-                        {errorMessage && 
-                            <div className="alert alert-danger mt-3">{errorMessage}</div>
-                        }
+                        {successMessage && <div className="alert alert-success mt-4">{successMessage}</div>}
+                        {errorMessage && <div className="alert alert-danger mt-4">{errorMessage}</div>}
                     </div>
                 </div>
             </div>

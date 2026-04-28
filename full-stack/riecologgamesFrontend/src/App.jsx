@@ -22,46 +22,37 @@ function App() {
   return (
    <>
     <BrowserRouter>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-dark">
         <div className="container">
-          <Link className="navbar-brand" to="/">Game App</Link>
+          <Link className="navbar-brand" to="/">Riecologgames</Link>
           <div>
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link className="nav-link" to="/games">List Games</Link>
+                <Link className="nav-link" to="/games">Catalogo</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/create">Create Game</Link>
+                <Link className="nav-link" to="/create">Aggiungi al catalogo</Link>
               </li>
+            
               <li className="nav-item">
-                <Link className="nav-link" to="/register_customer">Register Customer</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/products">Products</Link>
+                <Link className="nav-link" to="/products">Magazzino</Link>
               </li>
               {/* 2. Aggiunto il Link di navigazione per Arrived Product */}
               <li className="nav-item">
-                <Link className="nav-link" to="/arrived_product">Arrived Product</Link>
+                <Link className="nav-link" to="/arrived_product">Gestione Magazzino</Link>
               </li>
 
                 <li className="nav-item">
-                <Link className="nav-link" to="/request_product">Request Stock</Link>
+                <Link className="nav-link" to="/request_product">Richiedi</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/login">Login</Link>
+              </li>
+                <li className="nav-item">
+                <Link className="nav-link" to="/register_customer">Registrati</Link>
               </li>
 
-              <li>
-                {isLoggedIn() ? (
-                  <>
-                    <button 
-                        onClick={handleLogout}
-                        className="btn btn-danger m-3">
-                        Logout
-                    </button>
-                    <ListGameComponent />
-                  </>
-                ) : (
-                  <LoginComponent />
-                )}
-              </li>
+            
             </ul>
           </div>
         </div>
@@ -75,6 +66,7 @@ function App() {
         {/* 3. Aggiunta la rotta per accedere al componente tramite URL */}
         <Route path="/arrived_product" element={<ArrivedProductComponent />} />
         <Route path="/request_product" element={<RequestProductComponent />} />
+        <Route path="/login" element={<LoginComponent />} />
       </Routes>
       
     </BrowserRouter>  
